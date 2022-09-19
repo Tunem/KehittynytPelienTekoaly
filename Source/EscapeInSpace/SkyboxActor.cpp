@@ -30,11 +30,48 @@ void ASkyboxActor::GenerateSphere(int verticalSlices, int horizontalSlices)
 {
 	float R = 20.0f;
 	float angle = 0.0;
-	float sinAngle;
-	float cosAngle;
 
-	FMath::SinCos(&sinAngle, &cosAngle, angle);
+	//Kommentointu pois kun näitä ei käytetä ja Unreal herjaa näistä compiling aikana
+	//float sinAngle;
+	//float cosAngle;
 
+	
+	float stepSizeVertical = 180.0f / verticalSlices;
+	float stepSizeHorizontal = 360.0f / horizontalSlices;
+	float vangle = 90.0f;
+	for (int v = 0; v <= verticalSlices; v++, vangle -= stepSizeVertical)
+	{
+		float hangle = 0.0f, radiusMultiplierAtHeight = 1.0f;
+		float height = 0.0f;
+		FMath::SinCos( &height, &radiusMultiplierAtHeight, FMath::DegreesToRadians(vangle));
+
+		for (int h=0; h <= horizontalSlices; h++, hangle += stepSizeHorizontal )
+		{
+			float X, Y;
+			FMath::SinCos( &X, &Y, FMath::DegreesToRadians(hangle));
+			Vertices.Add(FVector(X * radiusMultiplierAtHeight, Y * radiusMultiplierAtHeight, height) * R);
+			UE_LOG(LogTemp, Warning, TEXT("Added vertex %d: %s"), Vertices.Num()-1, *Vertices.Last(0).ToString());
+			float s = FMath::GetMappedRangeValueClamped(TRange<float>(0.0, 360.0), TRange<float>(0.0, 1.0), hangle);
+			float t = FMath::GetMappedRangeValueClamped(TRange<float>(90.0, -90.0), TRange<float>(1.0, 0.0), vangle);
+
+			TexCoords.Add(FVector2D(s, t));
+		}
+	}
+
+	for (int v = 1; v <= verticalSlices; v++)
+	{
+		for (int h = 0; h < horizontalSlices; h++)
+		{
+			int v0 = (v - 1) * (horizontalSlices+1) + h;
+			int v1 = v * (horizontalSlices + 1) + h;
+			int v2 = v * (horizontalSlices + 1) + h + 1;
+			int v3 = (v - 1) * (horizontalSlices + 1) + h +1;
+			Triangles.Add(v0); Triangles.Add(v1); Triangles.Add(v2);
+			Triangles.Add(v0); Triangles.Add(v2); Triangles.Add(v3);
+		}
+	}
+
+	/* Opiskelumateriaaleissa opittu
 	Vertices.Add(FVector(0, 0, R)); //0
 
 	Vertices.Add(FVector(R, 0, 0));
@@ -86,7 +123,7 @@ void ASkyboxActor::GenerateSphere(int verticalSlices, int horizontalSlices)
 	Triangles.Add(5);
 	Triangles.Add(1);
 	Triangles.Add(4);
-
+	*/
 	
 	// luodaan varsinainen mesh
 	mesh -> CreateMeshSection_LinearColor(0, Vertices, Triangles, TArray<FVector>(), TexCoords, TArray<FLinearColor>(), TArray<FProcMeshTangent>(), true);
@@ -94,5 +131,6 @@ void ASkyboxActor::GenerateSphere(int verticalSlices, int horizontalSlices)
 
 void ASkyboxActor::PostActorCreated()
 {
-	GenerateSphere(0, 0);
+	GenerateSphere(FMath::Max(VerticalSlices, MIN_VERTICAL_SLICES),
+					FMath::Max(HorizontalSlices, MIN_HORIZONTAL_SLICES));
 }

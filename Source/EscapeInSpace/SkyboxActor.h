@@ -7,6 +7,9 @@
 #include "ProceduralMeshComponent.h"
 #include "SkyboxActor.generated.h"
 
+const int MIN_VERTICAL_SLICES = 2;
+const int MIN_HORIZONTAL_SLICES = 4;
+
 UCLASS()
 class ESCAPEINSPACE_API ASkyboxActor : public AActor
 {
@@ -21,6 +24,12 @@ public:
 	TArray<FVector> Vertices;
 	TArray<FVector2D> TexCoords;
 	TArray<int32> Triangles;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int VerticalSlices = MIN_VERTICAL_SLICES;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int HorizontalSlices = MIN_HORIZONTAL_SLICES;
 
 protected:
 	// Called when the game starts or when spawned
