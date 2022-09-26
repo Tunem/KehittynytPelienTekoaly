@@ -66,9 +66,9 @@ public:
 	UFUNCTION()
 		void RenderScreen(UCanvas* Canvas, int32 Width, int32 Height);
 
-	UFUNCTION(CPF_BlueprintCallable)
+	UFUNCTION(BlueprintCallable)
 		void UpdateText();
 
-	UFUNCTION(CPF_BlueprintCallable)
+	UFUNCTION(BlueprintCallable)
 		void AddLine(const FString& line);
 };

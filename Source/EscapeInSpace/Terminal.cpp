@@ -56,7 +56,7 @@ void ATerminal::RenderScreen(UCanvas* Canvas, int32 Width, int32 Height)
 	for (int i = 0; i < Lines.Num(); i++)
 	{
 															//Possibililty to start lower?
-		Canvas->DrawText(Font, Lines[1], IndentationAmount, LineHeight + LineHeight * 1, FontScale, FontScale, FFontRenderInfo());
+		Canvas->DrawText(Font, Lines[i], IndentationAmount, LineHeight + LineHeight * i, FontScale, FontScale, FFontRenderInfo());
 	}
 }
 
