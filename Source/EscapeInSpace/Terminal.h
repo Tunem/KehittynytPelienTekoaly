@@ -55,6 +55,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Terminal")
 		float FontScale = 1.0;
 
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Terminal")
+		//UMaterialInstanceDynamic* materialInstance;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
