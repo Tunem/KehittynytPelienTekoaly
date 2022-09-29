@@ -25,7 +25,8 @@ public:
   UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Robot setings")
   UMaterialInterface *SeppoMaterial;
     
-  
+  UMaterialInstanceDynamic *RobotMaterialInstance;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -40,7 +41,8 @@ public:
 	UFUNCTION(BlueprintCallable)
   void SetMaterialToSeppo();
 
-  
+	UFUNCTION(BlueprintCallable)
+	void SetRoughness(float value);
 
 
   
