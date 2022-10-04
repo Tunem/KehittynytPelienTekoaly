@@ -47,7 +47,7 @@ void ARobot::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
-
+//Setting material
 void ARobot::SetMaterialToSeppo()
 {
   if ( SeppoMaterial )
