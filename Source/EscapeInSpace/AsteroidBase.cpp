@@ -11,6 +11,8 @@ AAsteroidBase::AAsteroidBase()
 	PrimaryActorTick.bCanEverTick = true;
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root Component"));
   Tags.Add(FName("Asteroid"));
+
+  Tags.Add(FName("RadarTracked"));
 }
 
 // Called when the game starts or when spawned
